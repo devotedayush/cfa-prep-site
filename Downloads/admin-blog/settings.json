@@ -1,0 +1,14 @@
+{
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.git/**":        true,
+    "**/.next/**":       true,
+    "**/public/**":      true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next":        true
+  },
+  "javascript.validate.enable": false,
+  "typescript.validate.enable": false
+}
