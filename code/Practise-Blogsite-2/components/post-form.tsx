@@ -28,12 +28,19 @@ export function PostForm({ post }: PostFormProps) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [slugEdited, setSlugEdited] = useState(false)
+  const [imageFile, setImageFile] = useState<File | null>(null)
 
   useEffect(() => {
     if (!slugEdited && title) {
       setSlug(generateSlug(title))
     }
   }, [title, slugEdited])
+
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files && e.target.files[0]) {
+      setImageFile(e.target.files[0]);
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -47,6 +54,16 @@ export function PostForm({ post }: PostFormProps) {
     }
 
     try {
+      let imageUrl = post?.image_url || null;
+      // Only upload if a new file is selected
+      if (imageFile) {
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('post-images')
+          .upload(`public/${Date.now()}-${imageFile.name}`, imageFile);
+        if (uploadError) throw uploadError;
+        const { data: urlData } = supabase.storage.from('post-images').getPublicUrl(uploadData.path);
+        imageUrl = urlData.publicUrl;
+      }
       if (post) {
         // Update existing post
         const { error } = await supabase
@@ -56,19 +73,33 @@ export function PostForm({ post }: PostFormProps) {
             slug,
             content,
             published,
+            image_url: imageUrl,
           })
           .eq("id", post.id)
-
         if (error) throw error
       } else {
         // Create new post
+        let baseSlug = generateSlug(title)
+        let uniqueSlug = baseSlug
+        let counter = 1
+        // Check for existing slug and auto-increment if needed
+        while (true) {
+          const { data: existing, error: checkError } = await supabase
+            .from("posts")
+            .select("id")
+            .eq("slug", uniqueSlug)
+            .maybeSingle()
+          if (checkError) throw checkError
+          if (!existing) break
+          uniqueSlug = `${baseSlug}-${counter++}`
+        }
         const { error } = await supabase.from("posts").insert({
           title,
-          slug,
+          slug: uniqueSlug,
           content,
           published,
+          image_url: imageUrl,
         })
-
         if (error) throw error
       }
 
@@ -111,6 +142,20 @@ export function PostForm({ post }: PostFormProps) {
             required
           />
           <p className="text-xs text-white/60">This will be used in the URL: /blog/{slug || "your-post-slug"}</p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="image">Image</Label>
+          <Input
+            id="image"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="border-white/10 bg-white/5"
+          />
+          {post?.image_url && (
+            <img src={post.image_url} alt="Post image" className="mt-2 max-h-48 rounded" />
+          )}
         </div>
 
         <div className="space-y-2">

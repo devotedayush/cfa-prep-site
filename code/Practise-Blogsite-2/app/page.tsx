@@ -22,12 +22,9 @@ export default async function Home() {
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                   <span className="bg-gradient-to-r from-emerald-300 to-sky-400 bg-clip-text text-transparent">
-                    Welcome to Admin Blog
+                    Welcome to Ments Blog
                   </span>
                 </h1>
-                <p className="max-w-[700px] text-white/60 md:text-xl">
-                  A simple blog with admin-only content management.
-                </p>
               </div>
             </div>
           </div>

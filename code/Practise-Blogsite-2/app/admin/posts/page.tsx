@@ -17,9 +17,6 @@ type Post = Database["public"]["Tables"]["posts"]["Row"]
 export default function PostsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const filterParam  {
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const filterParam = searchParams.get('filter');
   
   const [posts, setPosts] = useState<Post[]>([]);

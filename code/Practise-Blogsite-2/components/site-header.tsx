@@ -7,7 +7,7 @@ export function SiteHeader() {
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <div className="h-8 w-8 rounded-full bg-gradient-to-r from-emerald-300 to-sky-400"></div>
-          <span className="text-xl font-bold">Admin Blog</span>
+          <span className="text-xl font-bold">Ments Blog</span>
         </Link>
         <nav className="flex items-center space-x-4">
           <Link href="/" className="text-white/60 hover:text-white transition-colors">

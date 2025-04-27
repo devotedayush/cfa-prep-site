@@ -14,12 +14,14 @@ export async function createServerSupabaseClient() {
         async get(name: string) {
           return (await cookieStore).get(name)?.value;
         },
-        async set(name: string, value: string, options: any) {
-          (await cookieStore).set({ name, value, ...options });
-        },
-        async remove(name: string, options: any) {
-          (await cookieStore).delete({ name, ...options });
-        },
+        // WARNING: Do not use set/remove cookies outside of Route Handlers or Server Actions!
+        // If you need to set or remove cookies in other contexts, use the /api/auth-cookies API route instead.
+        // async set(name: string, value: string, options: any) {
+        //   (await cookieStore).set({ name, value, ...options });
+        // },
+        // async remove(name: string, options: any) {
+        //   (await cookieStore).delete({ name, ...options });
+        // },
       },
     }
   );
