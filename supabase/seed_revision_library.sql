@@ -1,0 +1,3 @@
+-- Curated revision-library content (global, level-tagged). Applied via the
+-- Supabase MCP execute_sql on 2026-06-16. Re-runnable (on conflict do nothing).
+-- See the matching INSERT in project history; ids are stable text keys.

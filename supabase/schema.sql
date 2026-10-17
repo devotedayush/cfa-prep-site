@@ -1,0 +1,18 @@
+-- The authoritative schema lives in this project's Supabase instance and in
+-- the `migrations/` folder (run via `supabase db push` or the SQL editor).
+--
+-- IMPORTANT: the deployed database is the "Gen-2" schema (study_progress,
+-- study_assessments, study_notes, study_mocks, flashcard_progress,
+-- custom_flashcards, study_question_attempts, assessment_sets,
+-- assessment_questions, revision_note_progress, calculator_drill_progress,
+-- revision_library_notes, profiles, plus the multi-level/billing additions in
+-- migrations 20260615*). The curriculum/syllabus itself is NOT stored in the
+-- DB — it lives in app code as static data keyed by TEXT ids; the DB stores
+-- only per-user progress, user content, and admin-uploaded question banks.
+--
+-- The original single-user prototype tables (subjects, topics, subtopics,
+-- progress_records, ai_assessments, mock_tests, mock_section_scores) are
+-- DEPRECATED and slated for removal (they have RLS disabled and are unused).
+--
+-- Generate up-to-date TypeScript types into src/lib/types/database.ts with:
+--   supabase gen types typescript --linked > src/lib/types/database.ts
